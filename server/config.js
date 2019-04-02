@@ -28,8 +28,8 @@ const CONF = {
   mysql: {
     host: 'localhost',
     port: 3306,
-    user: 'root1',
-    db: 'user',
+    user: 'root',
+    db: 'cAuth',
     pass: '',
     char: 'utf8mb4'
   },

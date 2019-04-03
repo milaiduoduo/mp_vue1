@@ -5,7 +5,7 @@
             <p>{{userinfo.nickName}}</p>
         </div>
         <year-progress></year-progress>
-        <button class="btn">添加图书</button>
+        <button class="btn" @click="scanBooks">添加图书</button>
     </div>
 </template>
 
@@ -13,12 +13,24 @@
 export default {
   data() {
     return {
-      userinfo: {}
+      userinfo: {
+        avatarUrl: "../../static/img/unlogin.png",
+        nickName: "点击登录"
+      }
     };
   },
   created() {
     this.userinfo = wx.getStorageSync("userinfo");
     console.log("Me.vue, this.userinfo:", this.userinfo);
+  },
+  methods: {
+    scanBooks() {
+      wx.scanCode({
+        success(res) {
+          console.log("book info: ", res);
+        }
+      });
+    }
   }
 };
 </script>
@@ -27,6 +39,13 @@ export default {
   padding: 0 30rpx;
   .userinfo {
     margin-top: 100rpx;
+    text-align: center;
+    img {
+      width: 150rpx;
+      height: 150rpx;
+      margin: 20rpx;
+      border-radius: 50%;
+    }
   }
 }
 </style>

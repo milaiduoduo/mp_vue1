@@ -1,4 +1,5 @@
 <script>
+import { showSuccess } from "./util"; //优化
 import qcloud from "wafer2-client-sdk";
 import config from "@/config.js";
 export default {
@@ -13,17 +14,17 @@ export default {
           this.loginSuccess(res);
         },
         fail: err => {
-          console.error(err);
+          console.error("登录失败：", err);
         }
       });
     } else {
       qcloud.login({
         success: res => {
-          console.log("登录成功", res);
+          console.log("登录成功：", res);
           this.loginSuccess(res);
         },
         fail: err => {
-          console.error(err);
+          console.error("登录失败：", err);
         }
       });
     }
@@ -31,7 +32,7 @@ export default {
   },
   methods: {
     loginSuccess(res) {
-      // showSuccess("登录成功");
+      showSuccess("登录成功");
       wx.setStorageSync("userinfo", res);
       this.userinfo = res;
     }
@@ -39,6 +40,20 @@ export default {
 };
 </script>
 <style>
+.btn {
+  color: #fff;
+  background: #ea5a49;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 2px;
+  font-size: 16px;
+  line-height: 40px;
+  height: 40px;
+}
+.btn:active {
+  background: #fa5a49;
+}
 </style>
 
 

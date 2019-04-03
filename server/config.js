@@ -12,13 +12,13 @@ const CONF = {
   rootPathname: '',
 
   // 微信小程序 App ID
-  appId: '',
+  appId: 'wx2655e79bc716b5ff',
 
   // 微信小程序 App Secret
-  appSecret: '',
+  appSecret: '2d9a842283751198a4e98174c254e9f0',
 
-  // 是否使用腾讯云代理登录小程序
-  useQcloudLogin: true,
+  // 是否使用腾讯云代理登录小程序,默认值为true
+  useQcloudLogin: false,
 
   /**
    * MySQL 配置，用来存储 session 和用户信息

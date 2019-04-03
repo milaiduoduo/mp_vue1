@@ -5,7 +5,7 @@
         <div>{{userInfo.nickName}}</div>
       </div>
       <button v-if="userInfo.openId" @click="scanBook" class='btn'>添加图书</button>
-      <button v-else size='mini' open-type="getUserInfo" @getuserinfo="login">点击登录</button>
+      <button v-else open-type="getUserInfo" @getuserinfo="login">点击登录</button>
     </div>
 </template>
 
@@ -41,6 +41,7 @@ export default {
       });
       qcloud.setLoginUrl(config.loginUrl);
       const session = qcloud.Session.get();
+      console.log("session:", session);
       if (session) {
         qcloud.loginWithCode({
           success: res => {

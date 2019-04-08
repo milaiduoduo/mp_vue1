@@ -4,7 +4,7 @@
         <img class='avatar' :src="userInfo.avatarUrl" alt="">
         <div>{{userInfo.nickName}}</div>
       </div>
-      <button v-if="userInfo.openId" @click="scanBook" class='btn'>添加图书</button>
+      <button v-if="userInfo.openId" @click="scanBooks" class='btn'>添加图书</button>
       <button v-else open-type="getUserInfo" @getuserinfo="login">点击登录</button>
     </div>
 </template>
@@ -13,6 +13,7 @@
 import { showSuccess } from "@/util.js"; //优化
 import qcloud from "wafer2-client-sdk";
 import config from "@/config.js";
+import { showModal, post } from "@/util.js";
 export default {
   data() {
     return {
@@ -66,10 +67,29 @@ export default {
     },
     scanBooks() {
       wx.scanCode({
-        success(res) {
+        success: res => {
           console.log("book info: ", res);
+          //发送请求到豆瓣
+          if (res.result) {
+            this.addBook(res.result);
+          }
         }
       });
+    },
+    async addBook(isbn) {
+      // try {
+      const res = await post(config.doubanBookUrl, {
+        isbn,
+        openid: this.userInfo.openId
+      });
+      console.log("douBan res:", res);
+      if (res.title) {
+        showModal("添加成功", `${res.title}添加成功`);
+      }
+      // } catch (err) {
+      //   //失败！
+      //   showModal("添加失败", err);
+      // }
     },
     loginSuccess(res) {
       showSuccess("登录成功！");

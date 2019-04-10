@@ -2,10 +2,16 @@ const https = require('https');
 const {
   mysql
 } = require('../qcloud');
-import {
+const {
   getJSON
-} from '../utils.js';
-import myConfig from '../myconfig/config';
+} = require('../utils.js');
+// import {
+//   getJSON
+// } from '../utils.js';
+const {
+  myConfig
+} = require('../myconfig/config.js');
+// import myConfig from '../myconfig/config.js';
 
 module.exports = async (ctx) => {
   console.log('ctx.request.body:', ctx.request.body);

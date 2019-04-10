@@ -1,13 +1,15 @@
 <template>
     <div>
-        <div v-for='book in bookList' :key=book.id>{{book.title}}</div>
+        <card :book=book v-for='book in bookList' :key=book.id>{{book.title}}</card>
     </div>
 </template>
 
 <script>
 import { get } from "@/util.js";
 import config from "@/config.js";
+import Card from "@/components/Card";
 export default {
+  components: { Card },
   data() {
     return {
       bookList: []

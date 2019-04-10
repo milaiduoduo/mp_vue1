@@ -77,7 +77,7 @@ export default {
       });
     },
     async addBook(isbn) {
-      // try {
+      // 向豆瓣图书api发送请求，
       const res = await post(config.doubanBookUrl, {
         isbn,
         openid: this.userInfo.openId

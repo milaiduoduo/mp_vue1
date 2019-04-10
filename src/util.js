@@ -1,4 +1,6 @@
 import config from './config';
+
+
 export function showSuccess(text) {
   wx.showToast({
     title: text,

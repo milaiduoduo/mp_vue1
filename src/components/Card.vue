@@ -4,9 +4,9 @@
             <img class='img' :src="book.image" :alt="book.alt" mode="aspectFit">
         </div>
         <div class="detail">
-            <div class="row">
+            <div class="row text-primary" >
                 <div class="right">
-                    {{book.rate}}
+                    {{book.rate}}<Rate :value='Number(book.rate)'/>
                 </div>
                 <div class="left">
                     {{book.title}}
@@ -33,8 +33,12 @@
 </template>
 
 <script type="text/ecmascript-6">
+import Rate from "@/components/Rate";
 export default {
-  props: ["book"]
+  props: ["book"],
+  components: {
+    Rate
+  }
 };
 </script>
 
@@ -68,7 +72,6 @@ export default {
       float: right;
     }
     .left {
-      margin-right: 80px;
     }
   }
 }

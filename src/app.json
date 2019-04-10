@@ -2,7 +2,7 @@
   "pages": ["pages/book/main", "pages/comment/main", "pages/me/main"],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#EA5149",
     "navigationBarTitleText": "乐书小馆",
     "navigationBarTextStyle": "black"
   },

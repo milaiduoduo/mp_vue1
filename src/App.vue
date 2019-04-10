@@ -1,5 +1,4 @@
 <script>
-
 export default {};
 </script>
 <style>
@@ -16,6 +15,9 @@ export default {};
 }
 .btn:active {
   background: #fa5a49;
+}
+.text-primary {
+  color: #ea5149;
 }
 </style>
 

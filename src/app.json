@@ -3,8 +3,9 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#EA5149",
-    "navigationBarTitleText": "乐书小馆",
-    "navigationBarTextStyle": "black"
+    "navigationBarTitleText": "普天童乐书馆",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#ccc"
   },
   "tabBar": {
     "selectedColor": "#ea5149",

@@ -25,7 +25,7 @@ function request(url, method, data, header = {}) {
       header,
       url: url,
       success: (res) => {
-        console.log("res success:", res);
+        console.log("wx.request success:", res);
         if (res.data.code === 0) {
           resolve(res.data.data)
         } else {
@@ -43,6 +43,6 @@ export function post(url, data) {
 }
 
 export function get(url, data) {
-  console.log('in get', url, data);
+  console.log('in wx.request get:', url, data);
   return request(url, 'GET', data);
 }

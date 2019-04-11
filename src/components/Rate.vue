@@ -18,7 +18,7 @@ export default {
     }
   },
   mounted() {
-    console.log("value:", this.value);
+    // console.log("value:", this.value);
   }
 };
 </script>

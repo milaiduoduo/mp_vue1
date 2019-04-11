@@ -12,15 +12,29 @@ export default {
   components: { Card },
   data() {
     return {
-      bookList: []
+      bookList: [],
+      pageNum: 1,
+      init: true,
+      pageSize: 10,
+      more: true
     };
   },
   methods: {
     async getBookList() {
       // wx.showNavigationBarLoading();
-      const books = await get(config.bookList);
+      const books = await get(config.bookList, {
+        pageNum: this.pageNum,
+        size: this.pageSize
+      });
+      if (
+        books.list.length < this.pageSize ||
+        books.list.length < this.pageSize
+      ) {
+        //表示没有更多数据，pageNum不需要再增加
+        this.more = false;
+      }
+      this.bookList = [...this.bookList, ...books.list];
       console.log("booklist:", books.list);
-      this.bookList = books.list;
       wx.stopPullDownRefresh();
       // wx.hideNavigationBarLoading();
     }
@@ -31,6 +45,12 @@ export default {
   },
   onPullDownRefresh() {
     console.log("下拉了！");
+    this.getBookList();
+  },
+  onReachBottom() {
+    if (this.more) {
+      this.pageNum++;
+    }
     this.getBookList();
   }
 };

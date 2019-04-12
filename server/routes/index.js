@@ -41,5 +41,6 @@ router.get('/demo', controllers.demo);
 
 router.post('/addbook', controllers.addbook);
 router.get('/booklist', controllers.booklist);
-router.get('/getBookDetail', controllers.getBookDetail)
+router.get('/getBookDetail', controllers.getBookDetail);
+router.get('/getTop', controllers.getTop);
 module.exports = router

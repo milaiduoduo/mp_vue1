@@ -15,10 +15,16 @@ export default {
       bookList: [],
       pageNum: 1,
       pageSize: 10,
-      more: true
+      more: true,
+      topList: []
     };
   },
   methods: {
+    async getTop() {
+      const topList = await get(config.getTop, { size: 9 });
+      this.topList = topList;
+      console.log("this.topList:", this.topList);
+    },
     async getBookList(getNew = false) {
       // wx.showNavigationBarLoading();
       let books = [];
@@ -69,16 +75,19 @@ export default {
   },
   mounted() {
     //发请求获取图书列表
+    this.getTop();
     this.getBookList();
   },
   onPullDownRefresh() {
     console.log("下拉了！");
+    this.getTop();
     this.getBookList(true);
   },
   onReachBottom() {
     if (this.more) {
       this.pageNum++;
     }
+    this.getTop();
     this.getBookList();
   }
 };

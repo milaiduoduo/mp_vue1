@@ -29,7 +29,7 @@ function request(url, method, data, header = {}) {
         if (res.data.code === 0) {
           resolve(res.data.data)
         } else {
-          showModal('失败', res.data.data.msg);
+          showModal('失败', res.data);
           reject(res.data);
         }
       }

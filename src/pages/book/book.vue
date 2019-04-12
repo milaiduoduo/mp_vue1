@@ -1,5 +1,6 @@
 <template>
     <div> 
+      <TopSwiper :tops=topList></TopSwiper>
         <card :book=book v-for='book in bookList' :key=book.id>{{book.title}}</card> 
     </div>
 </template>
@@ -8,8 +9,9 @@
 import { get } from "@/util.js";
 import config from "@/config.js";
 import Card from "@/components/Card";
+import TopSwiper from "@/components/TopSwiper";
 export default {
-  components: { Card },
+  components: { Card, TopSwiper },
   data() {
     return {
       bookList: [],
@@ -22,7 +24,7 @@ export default {
   methods: {
     async getTop() {
       const topList = await get(config.getTop, { size: 9 });
-      this.topList = topList;
+      this.topList = topList.list;
       console.log("this.topList:", this.topList);
     },
     async getBookList(getNew = false) {

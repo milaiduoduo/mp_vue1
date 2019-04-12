@@ -32,16 +32,16 @@ export default {
   computed: {
     imgGroup() {
       let res = this.tops;
-      console.log("this.tops22222:", [
-        res.slice(0, 3),
-        res.slice(3, 6),
-        res.slice(6, 9)
-      ]);
+      //   console.log("this.tops22222:", [
+      //     res.slice(0, 3),
+      //     res.slice(3, 6),
+      //     res.slice(6, 9)
+      //   ]);
       return [res.slice(0, 3), res.slice(3, 6), res.slice(6, 9)];
     }
   },
   mounted() {
-    console.log("this.tops11111:", this.imgGroup);
+    // console.log("this.tops11111:", this.imgGroup);
     // console.log("imgGroup:", this.imgGroup);
   },
   methods: {

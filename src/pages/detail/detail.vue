@@ -5,14 +5,24 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { get } from "@/util";
+import config from "@/config";
 export default {
   data() {
     return {
-      id:''
+      id: ""
     };
   },
   mounted() {
     this.id = this.$root.$mp.query.id;
+    this.getBookDetail();
+  },
+  methods: {
+    async getBookDetail() {
+      //浏览量+1
+      console.log("in getBookDetail:", config.getBookDetail);
+      await get(config.getBookDetail, { id: this.id });
+    }
   }
 };
 </script>

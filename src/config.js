@@ -4,6 +4,7 @@ const config = {
   loginUrl: `${host}/weapp/login`,
   userUrl: `${host}/weapp/user`,
   doubanBookUrl: `${host}/weapp/addbook`,
-  bookList: `${host}/weapp/booklist`
+  bookList: `${host}/weapp/booklist`,
+  getBookDetail: `${host}/weapp/getBookDetail`,
 }
 export default config

@@ -33,28 +33,36 @@ export default {
           pageSize: this.pageSize
         });
       } else {
-        //表示从底部往上拉或者更多数据
-        // if (this.more) {
-        books = await get(config.bookList, {
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
-        });
-        // }
+        //表示从底部往上拉获取更多数据，并且永远能发请求，只是需要把获取的数据跟之前的数据做去重比较在显示。
+        // 暂时使用if, 去重问题解决后，就关闭if
+        if (this.more) {
+          books = await get(config.bookList, {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize
+          });
+        }
       }
 
       if (books.list.length < this.pageSize) {
         //表示没有更多数据，pageNum不需要再增加
         this.more = false;
+      } else {
+        this.more = true;
       }
+
+      // 构造展示的图书列表
       if (getNew) {
         this.bookList = books.list;
       } else {
         // 需要解决的场景，第一次加载完成后，数据库中新增了几条数据，这时再触底加载时，此次加载的数据可能包含了第一组加载的数据
-        // 所以后续来的数据需要去重
+        // 所以后续来的数据需要去重,不能只是不让其发请求
+        // 逻辑应该是，
+        // 如果发现新的数据分页完成后不够一页，则显示“没有更多数据”
+        // this.bookList = [...new Set([...this.bookList, ...books.list])];
         this.bookList = [...this.bookList, ...books.list];
       }
 
-      console.log("booklist:", books.list);
+      console.log("booklist:", this.bookList);
       wx.stopPullDownRefresh();
       // wx.hideNavigationBarLoading();
     }

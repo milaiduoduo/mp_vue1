@@ -1,6 +1,6 @@
 <template>
     <div> 
-      <TopSwiper :tops=topList></TopSwiper>
+        <TopSwiper :tops=topList></TopSwiper>
         <card :book=book v-for='book in bookList' :key=book.id>{{book.title}}</card> 
     </div>
 </template>

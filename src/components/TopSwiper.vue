@@ -15,6 +15,7 @@
     <div v-for='(topGroup,index) in imgGroup' :key='index'>
         <swiper-item> 
             <img class="slide-image" 
+            @click="toBookDetail(img)"
             v-for='(img,indexImage) in topGroup' 
             :key='indexImage' 
             :src="img.image" 
@@ -42,6 +43,13 @@ export default {
   mounted() {
     console.log("this.tops11111:", this.imgGroup);
     // console.log("imgGroup:", this.imgGroup);
+  },
+  methods: {
+    toBookDetail(img) {
+      wx.navigateTo({
+        url: "/pages/detail/main?id=" + img.id
+      });
+    }
   }
 };
 </script>

@@ -19,6 +19,14 @@ export default {};
 .text-primary {
   color: #ea5149;
 }
+.clear {
+  zoom: 1;
+}
+.clear:after {
+  content: "";
+  display: block;
+  clear: both;
+}
 </style>
 
 

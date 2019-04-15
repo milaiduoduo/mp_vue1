@@ -36,6 +36,7 @@
 
 <script type="text/ecmascript-6">
 import Rate from "@/components/Rate";
+import config from "@/config.js";
 export default {
   props: ["book"],
   components: {
@@ -43,7 +44,7 @@ export default {
   },
   computed: {
     detailUrl() {
-      return "/pages/detail/main?id=" + this.book.id;
+      return config.pageUrl.bookDetail + "?id=" + this.book.id;
     }
   },
   methods: {

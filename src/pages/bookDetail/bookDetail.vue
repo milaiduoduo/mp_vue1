@@ -12,7 +12,7 @@
       <img class="avatar" mode='aspectFit' :src="userinfo.image" :alt="bookInfo.title">
       {{userinfo.name}}
       <div class="right text-primary">
-        {{bookInfo.rate}}分
+        {{bookInfo.rate}}分 <rate :value="bookInfo.rate"></rate>
       </div>
     </div>
     <div class="detail">
@@ -28,6 +28,7 @@
 <script type="text/ecmascript-6">
 import { get } from "@/util";
 import config from "@/config";
+import rate from "@/components/Rate";
 export default {
   data() {
     return {
@@ -35,6 +36,7 @@ export default {
       bookInfo: {}
     };
   },
+  components: { rate },
   computed: {
     userinfo() {
       return this.bookInfo.user_info || {};

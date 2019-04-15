@@ -6,6 +6,9 @@ const config = {
   doubanBookUrl: `${host}/weapp/addbook`,
   bookList: `${host}/weapp/booklist`,
   getBookDetail: `${host}/weapp/getBookDetail`,
-  getTop: `${host}/weapp/getTop`
+  getTop: `${host}/weapp/getTop`,
+  pageUrl: {
+    bookDetail: `/pages/bookDetail/main`
+  }
 }
 export default config

@@ -1,11 +1,24 @@
 <template>
-<div>
+<div class="bookDetail">
     <div class="bgImgWrap">
       <img mode="aspectFill" class="bgImg" :src="bookInfo.image">
       <img mode="aspectFit" class="bookImg"  :src="bookInfo.image" :alt="bookInfo.title">
       <div class="info">
         <div class="title">{{bookInfo.title}}</div>
         <div class="author">{{bookInfo.author}}</div>
+      </div>
+    </div>
+    <div class="detail">
+      <img class="avatar" mode='aspectFit' :src="userinfo.image" :alt="bookInfo.title">
+      {{userinfo.name}}
+      <div class="right text-primary">
+        {{bookInfo.rate}}分
+      </div>
+    </div>
+    <div class="detail">
+      {{bookInfo.publisher}}
+      <div class="right">
+        {{bookInfo.price}}
       </div>
     </div>
     <button open-type="share">转发</button>
@@ -21,6 +34,11 @@ export default {
       id: "",
       bookInfo: {}
     };
+  },
+  computed: {
+    userinfo() {
+      return this.bookInfo.user_info || {};
+    }
   },
   mounted() {
     this.id = this.$root.$mp.query.id;
@@ -45,33 +63,45 @@ export default {
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-.bgImgWrap {
-  position: relative;
-  overflow: hidden;
-  .bgImg {
-    width: 750rpx;
-    height: 500rpx;
-    filter: blur(15px);
-  }
-  .bookImg {
-    position: absolute;
-    width: 100%;
-    height: 300rpx;
-    left: 0px;
-    top: 30rpx;
-  }
-  .info {
-    position: absolute;
-    top: 350rpx;
-    left: 0;
-    width: 100%;
-    color: #fff;
-    text-align: center;
-    .title {
-      font-size: 20px;
+.bookDetail {
+  font-size: 14px;
+  .bgImgWrap {
+    position: relative;
+    overflow: hidden;
+    .bgImg {
+      width: 750rpx;
+      height: 500rpx;
+      filter: blur(15px);
     }
-    .author {
-      font-size: 14px;
+    .bookImg {
+      position: absolute;
+      width: 100%;
+      height: 300rpx;
+      left: 0px;
+      top: 30rpx;
+    }
+    .info {
+      position: absolute;
+      top: 350rpx;
+      left: 0;
+      width: 100%;
+      color: #fff;
+      text-align: center;
+      .title {
+        font-size: 20px;
+      }
+      .author {
+        font-size: 14px;
+      }
+    }
+  }
+  .detail {
+    padding: 5px 10px;
+    .avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      vertical-align: middle;
     }
   }
 }

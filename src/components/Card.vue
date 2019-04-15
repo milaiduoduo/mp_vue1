@@ -1,15 +1,15 @@
 <template>
-    <div class="book-card">
-        <a :href="detailUrl" class="clear">
-        <div class="thumb" @click.stop="previewImg(book.image)">
-            <img class='img' :src="book.image" :alt="book.alt" mode="aspectFit">
-        </div>
-        <div class="detail">
+    <div class="book-card clear">
+        <a :href="detailUrl">
+          <div class="thumb" @click.stop="previewImg(book.image)">
+              <img class='img' :src="book.image" :alt="book.alt" mode="aspectFit">
+          </div>
+          <div class="detail clear">
             <div class="row text-primary" >
                 <div class="right">
-                    {{book.rate}}<Rate :value='Number(book.rate)'/>
+                    {{book.rate}}<rate :value="book.rate"></rate>
                 </div>
-                <div class="left">
+                <div>
                     {{book.title}}
                 </div>
             </div>
@@ -17,7 +17,7 @@
                 <div class="right text-primary" >
                     浏览量：{{book.count}}
                 </div>
-                <div class="left">
+                <div>
                     {{book.author}}
                 </div>
             </div>
@@ -25,11 +25,11 @@
                 <div class="right">
                     {{book.user_info.nickName}}
                 </div>
-                <div class="left">
+                <div>
                     {{book.publisher}}
                 </div>
             </div>
-        </div>
+          </div>
         </a>
     </div>
 </template>
@@ -82,11 +82,6 @@ export default {
     .row {
       line-height: 20px;
       margin-bottom: 3px;
-    }
-    .right {
-      float: right;
-    }
-    .left {
     }
   }
 }

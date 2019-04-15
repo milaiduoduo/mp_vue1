@@ -27,6 +27,12 @@ export default {};
   display: block;
   clear: both;
 }
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
 </style>
 
 

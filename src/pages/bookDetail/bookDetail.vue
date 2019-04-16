@@ -28,9 +28,10 @@
         {{item}}
       </p>
     </div>
-    <button open-type="share">转发</button>
+    <!-- <button open-type="share">转发</button> -->
   </div>
   <div class="otherWrap">
+    <textarea v-model='comment' class='textarea' :maxlength='300' placeholder="请输入图书短评"></textarea>
     <div class="section location">
       <span>地理位置：</span>
       <switch :checked='location' @change='getLocation'></switch>
@@ -41,21 +42,24 @@
       <switch :checked='phone' @change='getPhone'></switch>
       <span class="text-primary">{{phone}}</span>
     </div>
+    <div @click="addComment" style="width:100%;background:red;">评论</div>
   </div>
 </div>
 </template>
 
 <script type="text/ecmascript-6">
-import { get } from "@/util";
+import { get, post, showModal } from "@/util";
 import config from "@/config";
 import rate from "@/components/Rate";
 export default {
   data() {
     return {
-      id: "",
+      bookId: "",
       bookInfo: {},
       phone: "",
-      location: ""
+      location: "",
+      comment: "",
+      userinfo: {}
     };
   },
   components: { rate },
@@ -65,9 +69,11 @@ export default {
     }
   },
   mounted() {
-    this.id = this.$root.$mp.query.id;
+    this.bookId = this.$root.$mp.query.id;
+    console.log("bookid:", this.bookId);
     this.getBookDetail();
     console.log("这句是同步代码，所以this.bookInfo为空：", this.bookInfo);
+    this.userinfo = wx.getStorageSync("userinfo") || {};
   },
   onShow() {
     //要用转发功能，需要手动添加onShow生命周期，调用 wx.showShareMenu({});才会显示转发。
@@ -77,7 +83,7 @@ export default {
     async getBookDetail() {
       //浏览量+1
       // console.log("in getBookDetail:", config.getBookDetail);
-      const bookInfo = await get(config.getBookDetail, { id: this.id });
+      const bookInfo = await get(config.getBookDetail, { id: this.bookId });
       this.bookInfo = bookInfo;
       //setNavigationBarTitle这句还不能单独写在mounted里，还只能写在async回调里。。。。。。
       wx.setNavigationBarTitle({ title: this.bookInfo.title });
@@ -125,6 +131,25 @@ export default {
         });
       } else {
         this.location = "";
+      }
+    },
+    async addComment() {
+      //存入数据库的内容：评论，地理位置，手机型号，图书id，评论人openid
+      console.log("in addComment", this.userinfo);
+      const data = {
+        bookid: this.bookId,
+        comment: this.comment,
+        phone: this.phone,
+        location: this.location,
+        openid: this.userinfo.openId
+      };
+      try {
+        console.log("评论url,data:", config.addComment, data);
+        await post(config.addComment, data);
+        this.comment = "";
+        // this.getComments();
+      } catch (e) {
+        showModal("添加评论失败！", e.msg);
       }
     }
   }

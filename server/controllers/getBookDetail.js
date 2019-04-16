@@ -16,7 +16,7 @@ module.exports = async (ctx) => {
     .first()
 
   const info = JSON.parse(detailInfo.user_info);
-  console.log("---------------detailInfo:", detailInfo);
+  // console.log("---------------detailInfo:", detailInfo);
   ctx.state.data = Object.assign({}, detailInfo, {
     summary: detailInfo.summary.split('\n'),
     user_info: {

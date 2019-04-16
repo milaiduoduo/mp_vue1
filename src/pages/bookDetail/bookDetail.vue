@@ -1,5 +1,6 @@
 <template>
-<div class="bookDetail">
+<div class="bookDetailWrap">
+  <div class="bookDetail">
     <div class="bgImgWrap">
       <img mode="aspectFill" class="bgImg" :src="bookInfo.image">
       <img mode="aspectFit" class="bookImg"  :src="bookInfo.image" :alt="bookInfo.title">
@@ -21,7 +22,26 @@
         {{bookInfo.price}}
       </div>
     </div>
+    <div class="detail summary">
+      <div>简介：</div>
+      <p v-for='(item,index) in bookInfo.summary' :key="index">
+        {{item}}
+      </p>
+    </div>
     <button open-type="share">转发</button>
+  </div>
+  <div class="otherWrap">
+    <div class="section location">
+      <span>地理位置：</span>
+      <switch :checked='location' @change='getLocation'></switch>
+      <span class="text-primary">{{location}}</span>
+    </div>
+    <div class="section phone">
+      <span>手机型号：</span>
+      <switch :checked='phone' @change='getPhone'></switch>
+      <span class="text-primary">{{phone}}</span>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -33,7 +53,9 @@ export default {
   data() {
     return {
       id: "",
-      bookInfo: {}
+      bookInfo: {},
+      phone: "",
+      location: ""
     };
   },
   components: { rate },
@@ -59,14 +81,62 @@ export default {
       this.bookInfo = bookInfo;
       //setNavigationBarTitle这句还不能单独写在mounted里，还只能写在async回调里。。。。。。
       wx.setNavigationBarTitle({ title: this.bookInfo.title });
+    },
+    getPhone(e) {
+      console.log("获取手机型号：", e.target);
+      if (e.target.value) {
+        const phoneInfo = wx.getSystemInfoSync();
+        this.phone = phoneInfo.model;
+      } else {
+        this.phone = "";
+      }
+    },
+    getLocation(e) {
+      //1、注册百度地图api，获取api token。
+      const baiduApiTK = "ynFMfNnITh3QKZOrS4TZHhkMT53zQk5W";
+      // 2、选择全球逆地理编码，查看用法 http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding-abroad
+      let mapUrl = "http://api.map.baidu.com/geocoder/v2/";
+      // 3、调用wx.getLocation({}),会提示你在app.json中配置permission授权。
+      // 4、配置app.json，加入如下配置：
+      //   "permission": {
+      //   "scope.userLocation": {
+      //     "desc": "你的位置信息将用于小程序位置接口的效果展示"
+      //    }
+      //   }
+      // 5、调用wx.getLocation({})能获得，res.latitude, res.longitude，说明成功！
+      // 6、发送get请求，参数参考：http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=35.658651,139.745415&output=json&pois=1&latest_admin=1&ak=您的ak //GET请求  注：老版本行政区划数据已不再维护，为确保您的行政区划数据正确，请务必将latest_admin设置为1
+      if (e.target.value) {
+        wx.getLocation({
+          success: res => {
+            wx.request({
+              url: mapUrl,
+              data: {
+                ak: baiduApiTK,
+                location: `${res.latitude},${res.longitude}`,
+                output: "json",
+                latest_admin: 1
+              },
+              success: res => {
+                // console.log("地理位置返回:", res);
+                this.location = res.data.result.formatted_address;
+              }
+            });
+          }
+        });
+      } else {
+        this.location = "";
+      }
     }
   }
 };
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+$base-font-size: 14px;
+$base-padding: 5px 10px;
+
 .bookDetail {
-  font-size: 14px;
+  font-size: $base-font-size;
   .bgImgWrap {
     position: relative;
     overflow: hidden;
@@ -98,13 +168,30 @@ export default {
     }
   }
   .detail {
-    padding: 5px 10px;
+    padding: $base-padding;
     .avatar {
       width: 20px;
       height: 20px;
       border-radius: 50%;
       vertical-align: middle;
     }
+    &.summary {
+      margin-top: 10px;
+      p {
+        text-indent: 2em;
+        font-size: 14px;
+      }
+    }
+  }
+}
+.otherWrap {
+  padding: $base-padding;
+  font-size: $base-font-size;
+  .section {
+    &:first-child {
+      margin-top: 8px;
+    }
+    margin-bottom: 8px;
   }
 }
 </style>

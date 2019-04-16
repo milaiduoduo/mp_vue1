@@ -70,7 +70,7 @@ export default {
     console.log("这句是同步代码，所以this.bookInfo为空：", this.bookInfo);
   },
   onShow() {
-    //要用转发功能，需要手动添加onShow生命周期，调用 wx.showShareMenu({});才可以显示转发。
+    //要用转发功能，需要手动添加onShow生命周期，调用 wx.showShareMenu({});才会显示转发。
     wx.showShareMenu();
   },
   methods: {

@@ -34,12 +34,12 @@
     <textarea class='textarea commentInput' v-model='comment' :maxlength='300' placeholder="请输入图书短评"></textarea>
     <div class="section location">
       <span>地理位置：</span>
-      <switch :checked='location' @change='getLocation'></switch>
+      <switch :color='maincolor' :checked='location' @change='getLocation' ></switch>
       <span class="text-primary">{{location}}</span>
     </div>
     <div class="section phone">
       <span>手机型号：</span>
-      <switch :checked='phone' @change='getPhone'></switch>
+      <switch :color='maincolor' :checked='phone' @change='getPhone'></switch>
       <span class="text-primary">{{phone}}</span>
     </div>
     <button class="btn" @click.stop="addComment">评论</button>
@@ -59,7 +59,8 @@ export default {
       phone: "",
       location: "",
       comment: "",
-      userinfo: {}
+      userinfo: {},
+      maincolor: "#EA5A49"
     };
   },
   components: { rate },
@@ -214,12 +215,15 @@ $base-padding: 5px 10px;
   padding: $base-padding;
   font-size: $base-font-size;
   .section {
-    &:first-child {
+    &.location {
       margin-top: 8px;
     }
     margin-bottom: 8px;
   }
   .commentInput {
+    width: 100%;
+    padding: 5px;
+    margin-left: -5px;
     background: $background-main;
   }
 }

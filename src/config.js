@@ -9,6 +9,7 @@ const config = {
   getBookDetail: `${host}/weapp/getBookDetail`,
   getTop: `${host}/weapp/getTop`,
   addComment: `${host}/weapp/addComment`,
+  getCommentList: `${host}/weapp/getCommentList`,
   pageUrl: {
     bookDetail: `/pages/bookDetail/main`
   }

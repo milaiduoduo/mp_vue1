@@ -29,7 +29,8 @@ function request(url, method, data, header = {}) {
         if (res.data.code === 0) {
           resolve(res.data.data)
         } else {
-          showModal('失败', res.data);
+          console.log("util.js showModal err:", res.data.error)
+          showModal('失败', res.data.error);
           reject(res.data);
         }
       }

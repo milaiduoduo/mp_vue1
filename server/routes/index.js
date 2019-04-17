@@ -44,4 +44,5 @@ router.get('/booklist', controllers.booklist);
 router.get('/getBookDetail', controllers.getBookDetail);
 router.get('/getTop', controllers.getTop);
 router.post('/addComment', controllers.addComment);
+router.get('/getCommentList', controllers.getCommentList);
 module.exports = router

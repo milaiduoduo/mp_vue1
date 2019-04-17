@@ -31,7 +31,7 @@
     <!-- <button open-type="share">转发</button> -->
   </div>
   <div class="otherWrap">
-    <textarea class='textarea commentInput' v-model='comment' :maxlength='300' placeholder="请输入图书短评"></textarea>
+    <textarea class='textarea commentInput' v-model='comment' :maxlength='200' placeholder="请输入图书短评"></textarea>
     <div class="section location">
       <span>地理位置：</span>
       <switch :color='maincolor' :checked='location' @change='getLocation' ></switch>
@@ -60,7 +60,8 @@ export default {
       location: "",
       comment: "",
       userinfo: {},
-      maincolor: "#EA5A49"
+      maincolor: "#EA5A49",
+      commentList: []
     };
   },
   components: { rate },
@@ -75,6 +76,8 @@ export default {
     this.getBookDetail();
     console.log("这句是同步代码，所以this.bookInfo为空：", this.bookInfo);
     this.userinfo = wx.getStorageSync("userinfo") || {};
+    //
+    this.getCommentList();
   },
   onShow() {
     //要用转发功能，需要手动添加onShow生命周期，调用 wx.showShareMenu({});才会显示转发。
@@ -88,6 +91,13 @@ export default {
       this.bookInfo = bookInfo;
       //setNavigationBarTitle这句还不能单独写在mounted里，还只能写在async回调里。。。。。。
       wx.setNavigationBarTitle({ title: this.bookInfo.title });
+    },
+    async getCommentList() {
+      const commentList = await get(config.getCommentList, {
+        bookId: this.bookId
+      });
+      this.commentList = commentList;
+      console.log("this.commentList:", this.commentList);
     },
     getPhone(e) {
       console.log("获取手机型号：", e.target);
@@ -136,7 +146,6 @@ export default {
     },
     async addComment() {
       //存入数据库的内容：评论，地理位置，手机型号，图书id，评论人openid
-      console.log("in addComment", this.userinfo);
       const data = {
         bookid: this.bookId,
         comment: this.comment,
@@ -145,12 +154,12 @@ export default {
         openid: this.userinfo.openId
       };
       try {
-        console.log("评论url,data:", config.addComment, data);
         await post(config.addComment, data);
         this.comment = "";
         // this.getComments();
       } catch (e) {
-        showModal("添加评论失败！", e.msg);
+        console.log("err:", e);
+        showModal("添加评论失败！", "err");
       }
     }
   }

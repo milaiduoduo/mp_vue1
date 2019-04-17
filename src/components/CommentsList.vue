@@ -30,7 +30,7 @@ export default {
     handleClick(comment) {}
   },
   mounted() {
-    console.log("子组件props commentsList：", this.commentsList);
+    // console.log("子组件props commentsList：", this.commentsList);
   }
 };
 </script>
@@ -46,6 +46,11 @@ export default {
       padding-left: 5px;
       font-size: $font-size-small;
     }
+  }
+  .content {
+    padding: 8px 4px;
+    background: $background-light;
+    border-radius: 2px;
   }
 }
 </style>

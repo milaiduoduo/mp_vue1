@@ -32,7 +32,7 @@
     <!-- <button open-type="share">转发</button> -->
   </div>
   <comments-list :commentsList=commentList v-if="commentList.length"></comments-list>
-  <div class="otherWrap">
+  <div v-if="canComment" class="otherWrap">
     <textarea class='textarea commentInput' v-model='comment' :maxlength='200' placeholder="请输入图书短评"></textarea>
     <div class="section location">
       <span>地理位置：</span>
@@ -45,6 +45,14 @@
       <span class="text-primary">{{phone}}</span>
     </div>
     <button class="btn" @click.stop="addComment">评论</button>
+  </div>
+  <div v-else-if="!userinfo.openId"  class="otherWrap">
+    <span class="notice">想评论，赶紧去登录吧~</span>
+    <button class="btn" disabled="disabled">评论</button>
+  </div>
+  <div v-else class="otherWrap">
+    <span class="notice">你已经评论过啦，不能在评论啦~</span>
+    <button class="btn" disabled="disabled">评论</button>
   </div>
 </div>
 </template>
@@ -72,14 +80,32 @@ export default {
   computed: {
     userinfo() {
       return this.bookInfo.user_info || {};
+    },
+    canComment() {
+      let flag = true;
+      //1、未登录不能评论
+      if (!this.userinfo.openId) {
+        flag = false;
+      }
+      // 2、自己已经评论过了不能再评论
+      let tempList = this.commentList.filter(item => {
+        return item.user_info.openid === this.userinfo.openId;
+      });
+
+      if (tempList.length > 0) {
+        flag = false;
+      }
+
+      return flag;
     }
   },
   mounted() {
     this.bookId = this.$root.$mp.query.id;
-    console.log("bookid:", this.bookId);
+    // console.log("bookid:", this.bookId);
     this.getBookDetail();
     // console.log("这句是同步代码，所以this.bookInfo为空：", this.bookInfo);
     this.userinfo = wx.getStorageSync("userinfo") || {};
+    console.log("this.userinfo from 缓存:", this.userinfo);
     //
     this.getCommentList();
   },
@@ -93,7 +119,7 @@ export default {
       // console.log("in getBookDetail:", config.getBookDetail);
       const bookInfo = await get(config.getBookDetail, { id: this.bookId });
       this.bookInfo = bookInfo;
-      console.log("bookInfo:::", bookInfo);
+      // console.log("bookInfo:::", bookInfo);
       //setNavigationBarTitle这句还不能单独写在mounted里，还只能写在async回调里。。。。。。
       wx.setNavigationBarTitle({ title: this.bookInfo.title });
     },
@@ -101,11 +127,11 @@ export default {
       const commentList = await get(config.getCommentList, {
         bookId: this.bookId
       });
+      // console.log("----------this.commentList:", commentList.list);
       this.commentList = commentList.list;
-      console.log("this.commentList:", this.commentList);
     },
     getPhone(e) {
-      console.log("获取手机型号：", e.target);
+      // console.log("获取手机型号：", e.target);
       if (e.target.value) {
         const phoneInfo = wx.getSystemInfoSync();
         this.phone = phoneInfo.model;
@@ -161,7 +187,7 @@ export default {
       try {
         await post(config.addComment, data);
         this.comment = "";
-        // this.getComments();
+        this.getCommentList();
       } catch (e) {
         console.log("err:", e);
         showModal("添加评论失败！", "err");
@@ -173,7 +199,6 @@ export default {
 
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "src/styles/index.scss";
-
 .bookDetail {
   font-size: $font-size-base;
   .bgImgWrap {
@@ -237,6 +262,11 @@ export default {
     padding: 5px;
     margin-left: -5px;
     background: $background-main;
+  }
+  .notice {
+    display: block;
+    margin: 5px 0 13px;
+    text-align: center;
   }
 }
 </style>

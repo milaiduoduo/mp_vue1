@@ -25,7 +25,7 @@ export default {
     async getTop() {
       const topList = await get(config.getTop, { size: 9 });
       this.topList = topList.list;
-      console.log("this.topList:", this.topList);
+      // console.log("this.topList:", this.topList);
     },
     async getBookList(getNew = false) {
       // wx.showNavigationBarLoading();
@@ -70,7 +70,7 @@ export default {
         this.bookList = [...this.bookList, ...books.list];
       }
 
-      console.log("booklist:", this.bookList);
+      // console.log("booklist:", this.bookList);
       wx.stopPullDownRefresh();
       // wx.hideNavigationBarLoading();
     }
@@ -81,7 +81,7 @@ export default {
     this.getBookList();
   },
   onPullDownRefresh() {
-    console.log("下拉了！");
+    // console.log("下拉了！");
     this.getTop();
     this.getBookList(true);
   },

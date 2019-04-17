@@ -13,8 +13,10 @@ module.exports = async (ctx) => {
     list: commentList.map(item => {
       const userInfo = JSON.parse(item.user_info)
       return Object.assign({}, item, {
-        title: userInfo.nickName,
-        image: userInfo.avatarUrl
+        user_info: {
+          title: userInfo.nickName,
+          image: userInfo.avatarUrl
+        }
       })
     })
   }

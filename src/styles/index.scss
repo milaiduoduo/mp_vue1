@@ -1,5 +1,5 @@
 @import './variables.scss';
-@import "src/styles/variables.scss";
+// @import "src/styles/variables.scss";
 
 .btn {
   color: #fff;
@@ -43,4 +43,38 @@
 
 .left {
   float: left;
+}
+
+.m_avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.base_padding {
+  padding: $base-padding;
+}
+
+.section {
+  &:first-child {
+    margin-top: 8px;
+  }
+
+  margin-bottom: 8px;
+}
+
+.section:first-child {
+  margin-top: 10px;
+}
+
+.section:last-child {
+  margin-bottom: 10px;
+}
+
+.group {
+  .groupTitle {
+    margin: 10px 0px;
+    font-size: 18px;
+  }
 }

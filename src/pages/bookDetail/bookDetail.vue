@@ -1,6 +1,6 @@
 <template>
 <div class="bookDetailWrap">
-  <div class="bookDetail">
+  <div class="bookDetail group">
     <div class="bgImgWrap">
       <img mode="aspectFill" class="bgImg" :src="bookInfo.image">
       <img mode="aspectFit" class="bookImg"  :src="bookInfo.image" :alt="bookInfo.title">
@@ -10,9 +10,10 @@
       </div>
     </div>
     <div class="detail">
-      <img class="avatar" mode='aspectFit' :src="userinfo.image" :alt="bookInfo.title">
+      <img class="m_avatar" mode='aspectFit' :src="userinfo.image" :alt="bookInfo.title">
       {{userinfo.name}}
       <div class="right text-primary">
+        {{userinfo.name}}
         {{bookInfo.rate}}分 <rate :value="bookInfo.rate"></rate>
       </div>
     </div>
@@ -23,13 +24,14 @@
       </div>
     </div>
     <div class="detail summary">
-      <div>简介：</div>
+      <div class="groupTitle text-primary">简介：</div>
       <p v-for='(item,index) in bookInfo.summary' :key="index">
         {{item}}
       </p>
     </div>
     <!-- <button open-type="share">转发</button> -->
   </div>
+  <comments-list :commentsList=commentList v-if="commentList.length"></comments-list>
   <div class="otherWrap">
     <textarea class='textarea commentInput' v-model='comment' :maxlength='200' placeholder="请输入图书短评"></textarea>
     <div class="section location">
@@ -51,6 +53,8 @@
 import { get, post, showModal } from "@/util";
 import config from "@/config";
 import rate from "@/components/Rate";
+import commentsList from "@/components/CommentsList";
+
 export default {
   data() {
     return {
@@ -64,7 +68,7 @@ export default {
       commentList: []
     };
   },
-  components: { rate },
+  components: { rate, commentsList },
   computed: {
     userinfo() {
       return this.bookInfo.user_info || {};
@@ -74,7 +78,7 @@ export default {
     this.bookId = this.$root.$mp.query.id;
     console.log("bookid:", this.bookId);
     this.getBookDetail();
-    console.log("这句是同步代码，所以this.bookInfo为空：", this.bookInfo);
+    // console.log("这句是同步代码，所以this.bookInfo为空：", this.bookInfo);
     this.userinfo = wx.getStorageSync("userinfo") || {};
     //
     this.getCommentList();
@@ -89,6 +93,7 @@ export default {
       // console.log("in getBookDetail:", config.getBookDetail);
       const bookInfo = await get(config.getBookDetail, { id: this.bookId });
       this.bookInfo = bookInfo;
+      console.log("bookInfo:::", bookInfo);
       //setNavigationBarTitle这句还不能单独写在mounted里，还只能写在async回调里。。。。。。
       wx.setNavigationBarTitle({ title: this.bookInfo.title });
     },
@@ -96,7 +101,7 @@ export default {
       const commentList = await get(config.getCommentList, {
         bookId: this.bookId
       });
-      this.commentList = commentList;
+      this.commentList = commentList.list;
       console.log("this.commentList:", this.commentList);
     },
     getPhone(e) {
@@ -168,11 +173,9 @@ export default {
 
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "src/styles/index.scss";
-$base-font-size: 14px;
-$base-padding: 5px 10px;
 
 .bookDetail {
-  font-size: $base-font-size;
+  font-size: $font-size-base;
   .bgImgWrap {
     position: relative;
     overflow: hidden;
@@ -222,7 +225,7 @@ $base-padding: 5px 10px;
 }
 .otherWrap {
   padding: $base-padding;
-  font-size: $base-font-size;
+  font-size: $font-size-base;
   .section {
     &.location {
       margin-top: 8px;

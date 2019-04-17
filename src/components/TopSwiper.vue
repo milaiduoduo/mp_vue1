@@ -47,7 +47,7 @@ export default {
   methods: {
     toBookDetail(img) {
       wx.navigateTo({
-        url: "/pages/detail/main?id=" + img.id
+        url: "/pages/bookDetail/main?id=" + img.id
       });
     }
   }

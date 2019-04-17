@@ -31,7 +31,7 @@
     <!-- <button open-type="share">转发</button> -->
   </div>
   <div class="otherWrap">
-    <textarea v-model='comment' class='textarea' :maxlength='300' placeholder="请输入图书短评"></textarea>
+    <textarea class='textarea commentInput' v-model='comment' :maxlength='300' placeholder="请输入图书短评"></textarea>
     <div class="section location">
       <span>地理位置：</span>
       <switch :checked='location' @change='getLocation'></switch>
@@ -42,7 +42,7 @@
       <switch :checked='phone' @change='getPhone'></switch>
       <span class="text-primary">{{phone}}</span>
     </div>
-    <div @click="addComment" style="width:100%;background:red;">评论</div>
+    <button class="btn" @click.stop="addComment">评论</button>
   </div>
 </div>
 </template>
@@ -157,6 +157,7 @@ export default {
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+@import "src/styles/index.scss";
 $base-font-size: 14px;
 $base-padding: 5px 10px;
 
@@ -217,6 +218,9 @@ $base-padding: 5px 10px;
       margin-top: 8px;
     }
     margin-bottom: 8px;
+  }
+  .commentInput {
+    background: $background-main;
   }
 }
 </style>

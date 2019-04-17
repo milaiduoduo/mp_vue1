@@ -1,0 +1,46 @@
+@import './variables.scss';
+@import "src/styles/variables.scss";
+
+.btn {
+  color: #fff;
+  background: $theme-color;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 2px;
+  font-size: 16px;
+  line-height: 40px;
+  height: 40px;
+}
+
+.btn:active {
+  background: $theme-color;
+}
+
+.text-primary {
+  color: $theme-color;
+}
+
+.clear {
+  zoom: 1;
+}
+
+.clear {
+  zoom: 1;
+
+  &:after {
+    content: "";
+    display: block;
+    height: 0;
+    font-size: 0;
+    clear: both;
+  }
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}

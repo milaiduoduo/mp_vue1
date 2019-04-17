@@ -59,6 +59,7 @@ export default {
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+@import "src/styles/variables.scss";
 .book-card {
   padding: 5px;
   overflow: hidden;

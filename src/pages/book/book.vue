@@ -1,18 +1,18 @@
 <template>
     <div> 
         <TopSwiper :tops=topList></TopSwiper>
-        <card :book=book v-for='book in bookList' :key=book.id>{{book.title}}</card> 
+        <m_card :book=book v-for='book in bookList' :key=book.id>{{book.title}}</m_card> 
     </div>
 </template>
 
 <script>
-import { get } from '@/util.js';
-import config from '@/config.js';
-import Card from '@/components/Card';
-import TopSwiper from '@/components/TopSwiper';
+import { get } from "@/util.js";
+import config from "@/config.js";
+import m_card from "@/components/Card";
+import TopSwiper from "@/components/TopSwiper";
 export default {
-  components: { Card, TopSwiper },
-  data () {
+  components: { m_card, TopSwiper },
+  data() {
     return {
       bookList: [],
       pageNum: 1,
@@ -22,12 +22,12 @@ export default {
     };
   },
   methods: {
-    async getTop () {
+    async getTop() {
       const topList = await get(config.getTop, { size: 9 });
       this.topList = topList.list;
       // console.log("this.topList:", this.topList);
     },
-    async getBookList (getNew = false) {
+    async getBookList(getNew = false) {
       // wx.showNavigationBarLoading();
       let books = [];
       // getNew参数是为了区分是从上往下拉还是从底部往上拉。getNew=true 表示从上往下拉。
@@ -75,17 +75,17 @@ export default {
       // wx.hideNavigationBarLoading();
     }
   },
-  mounted () {
+  mounted() {
     // 发请求获取图书列表
     this.getTop();
     this.getBookList();
   },
-  onPullDownRefresh () {
+  onPullDownRefresh() {
     // console.log("下拉了！");
     this.getTop();
     this.getBookList(true);
   },
-  onReachBottom () {
+  onReachBottom() {
     if (this.more) {
       this.pageNum++;
     }

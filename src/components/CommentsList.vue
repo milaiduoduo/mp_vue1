@@ -1,7 +1,7 @@
 <template>
     <div class="commentListWrap base_padding group">
         <div class="groupTitle text-primary" >
-            评论
+            {{titleName}}
         </div>
         <div class="comment" 
         v-for="(comment,index) in commentsList"
@@ -25,11 +25,11 @@
 
 <script type="text/ecmascript-6">
 export default {
-  props: ['commentsList'],
+  props: ["commentsList", "titleName"],
   methods: {
-    handleClick (comment) {}
+    handleClick(comment) {}
   },
-  mounted () {
+  mounted() {
     // console.log("子组件props commentsList：", this.commentsList);
   }
 };

@@ -1,7 +1,9 @@
 <template>
     <div>
         <m_comments-list :commentsList=commentList titleName='我的评论' v-if="commentList.length"></m_comments-list>
-        <m_card :bookList=bookList titleName='我添加的图书'></m_card> 
+        <div class="notice" v-else>你还没有评论哟~</div>
+        <m_card :bookList=bookList titleName='我添加的图书' v-if="bookList.length"></m_card> 
+        <div class="notice" v-else>你还没有添加图书哟~</div>
     </div>
 </template>
 

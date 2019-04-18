@@ -263,10 +263,6 @@ export default {
     margin-left: -5px;
     background: $background-main;
   }
-  .notice {
-    display: block;
-    margin: 5px 0 13px;
-    text-align: center;
-  }
+
 }
 </style>

@@ -1,21 +1,24 @@
 const {
   mysql
-} = require('../qcloud');
+} = require('../qcloud')
 
 module.exports = async (ctx) => {
   // 1、增加浏览量计数
   const {
     id
-  } = ctx.request.query;
+  } = ctx.request.query
 
   const addInfo = await mysql('books').where('id', id).increment('count', 1);
+  if (addInfo <= 0) {
+    throw '浏览量计数不成功';
+  }
   const detailInfo = await mysql('books')
     .select('books.*', 'csessioninfo.user_info')
     .join('csessioninfo', 'books.openid', 'csessioninfo.open_id')
     .where('id', id)
     .first()
 
-  const info = JSON.parse(detailInfo.user_info);
+  const info = JSON.parse(detailInfo.user_info)
   // console.log("---------------detailInfo:", detailInfo);
   ctx.state.data = Object.assign({}, detailInfo, {
     summary: detailInfo.summary.split('\n'),

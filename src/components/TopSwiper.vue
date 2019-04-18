@@ -28,9 +28,9 @@
 
 <script type="text/ecmascript-6">
 export default {
-  props: ["tops"],
+  props: ['tops'],
   computed: {
-    imgGroup() {
+    imgGroup () {
       let res = this.tops;
       //   console.log("this.tops22222:", [
       //     res.slice(0, 3),
@@ -40,14 +40,14 @@ export default {
       return [res.slice(0, 3), res.slice(3, 6), res.slice(6, 9)];
     }
   },
-  mounted() {
+  mounted () {
     // console.log("this.tops11111:", this.imgGroup);
     // console.log("imgGroup:", this.imgGroup);
   },
   methods: {
-    toBookDetail(img) {
+    toBookDetail (img) {
       wx.navigateTo({
-        url: "/pages/bookDetail/main?id=" + img.id
+        url: '/pages/bookDetail/main?id=' + img.id
       });
     }
   }

@@ -35,22 +35,22 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Rate from "@/components/Rate";
-import config from "@/config.js";
+import Rate from '@/components/Rate';
+import config from '@/config.js';
 export default {
-  props: ["book"],
+  props: ['book'],
   components: {
     Rate
   },
   computed: {
-    detailUrl() {
-      return config.pageUrl.bookDetail + "?id=" + this.book.id;
+    detailUrl () {
+      return config.pageUrl.bookDetail + '?id=' + this.book.id;
     }
   },
   methods: {
-    previewImg(url) {
+    previewImg (url) {
       wx.previewImage({
-        current: "url", // 当前显示图片的http链接
+        current: 'url', // 当前显示图片的http链接
         urls: [url] // 需要预览的图片http链接列表
       });
     }

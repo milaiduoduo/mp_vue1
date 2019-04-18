@@ -13,11 +13,11 @@ export default {
     value: { type: [Number], default: 0 }
   },
   computed: {
-    style() {
+    style () {
       return `width:${this.value}em`;
     }
   },
-  mounted() {
+  mounted () {
     // console.log("value:", this.value);
   }
 };

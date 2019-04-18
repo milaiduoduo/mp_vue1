@@ -25,11 +25,11 @@
 
 <script type="text/ecmascript-6">
 export default {
-  props: ["commentsList"],
+  props: ['commentsList'],
   methods: {
-    handleClick(comment) {}
+    handleClick (comment) {}
   },
-  mounted() {
+  mounted () {
     // console.log("子组件props commentsList：", this.commentsList);
   }
 };

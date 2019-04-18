@@ -58,32 +58,32 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { get, post, showModal } from "@/util";
-import config from "@/config";
-import rate from "@/components/Rate";
-import commentsList from "@/components/CommentsList";
+import { get, post, showModal } from '@/util';
+import config from '@/config';
+import rate from '@/components/Rate';
+import commentsList from '@/components/CommentsList';
 
 export default {
-  data() {
+  data () {
     return {
-      bookId: "",
+      bookId: '',
       bookInfo: {},
-      phone: "",
-      location: "",
-      comment: "",
+      phone: '',
+      location: '',
+      comment: '',
       userinfo: {},
-      maincolor: "#EA5A49",
+      maincolor: '#EA5A49',
       commentList: []
     };
   },
   components: { rate, commentsList },
   computed: {
-    userinfo() {
+    userinfo () {
       return this.bookInfo.user_info || {};
     },
-    canComment() {
+    canComment () {
       let flag = true;
-      //1、未登录不能评论
+      // 1、未登录不能评论
       if (!this.userinfo.openId) {
         flag = false;
       }
@@ -99,51 +99,51 @@ export default {
       return flag;
     }
   },
-  mounted() {
+  mounted () {
     this.bookId = this.$root.$mp.query.id;
     // console.log("bookid:", this.bookId);
     this.getBookDetail();
     // console.log("这句是同步代码，所以this.bookInfo为空：", this.bookInfo);
-    this.userinfo = wx.getStorageSync("userinfo") || {};
-    console.log("this.userinfo from 缓存:", this.userinfo);
+    this.userinfo = wx.getStorageSync('userinfo') || {};
+    console.log('this.userinfo from 缓存:', this.userinfo);
     //
     this.getCommentList();
   },
-  onShow() {
-    //要用转发功能，需要手动添加onShow生命周期，调用 wx.showShareMenu({});才会显示转发。
+  onShow () {
+    // 要用转发功能，需要手动添加onShow生命周期，调用 wx.showShareMenu({});才会显示转发。
     wx.showShareMenu();
   },
   methods: {
-    async getBookDetail() {
-      //浏览量+1
+    async getBookDetail () {
+      // 浏览量+1
       // console.log("in getBookDetail:", config.getBookDetail);
       const bookInfo = await get(config.getBookDetail, { id: this.bookId });
       this.bookInfo = bookInfo;
       // console.log("bookInfo:::", bookInfo);
-      //setNavigationBarTitle这句还不能单独写在mounted里，还只能写在async回调里。。。。。。
+      // setNavigationBarTitle这句还不能单独写在mounted里，还只能写在async回调里。。。。。。
       wx.setNavigationBarTitle({ title: this.bookInfo.title });
     },
-    async getCommentList() {
+    async getCommentList () {
       const commentList = await get(config.getCommentList, {
         bookId: this.bookId
       });
       // console.log("----------this.commentList:", commentList.list);
       this.commentList = commentList.list;
     },
-    getPhone(e) {
+    getPhone (e) {
       // console.log("获取手机型号：", e.target);
       if (e.target.value) {
         const phoneInfo = wx.getSystemInfoSync();
         this.phone = phoneInfo.model;
       } else {
-        this.phone = "";
+        this.phone = '';
       }
     },
-    getLocation(e) {
-      //1、注册百度地图api，获取api token。
-      const baiduApiTK = "ynFMfNnITh3QKZOrS4TZHhkMT53zQk5W";
+    getLocation (e) {
+      // 1、注册百度地图api，获取api token。
+      const baiduApiTK = 'ynFMfNnITh3QKZOrS4TZHhkMT53zQk5W';
       // 2、选择全球逆地理编码，查看用法 http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding-abroad
-      let mapUrl = "http://api.map.baidu.com/geocoder/v2/";
+      let mapUrl = 'http://api.map.baidu.com/geocoder/v2/';
       // 3、调用wx.getLocation({}),会提示你在app.json中配置permission授权。
       // 4、配置app.json，加入如下配置：
       //   "permission": {
@@ -161,7 +161,7 @@ export default {
               data: {
                 ak: baiduApiTK,
                 location: `${res.latitude},${res.longitude}`,
-                output: "json",
+                output: 'json',
                 latest_admin: 1
               },
               success: res => {
@@ -172,11 +172,11 @@ export default {
           }
         });
       } else {
-        this.location = "";
+        this.location = '';
       }
     },
-    async addComment() {
-      //存入数据库的内容：评论，地理位置，手机型号，图书id，评论人openid
+    async addComment () {
+      // 存入数据库的内容：评论，地理位置，手机型号，图书id，评论人openid
       const data = {
         bookid: this.bookId,
         comment: this.comment,
@@ -186,11 +186,11 @@ export default {
       };
       try {
         await post(config.addComment, data);
-        this.comment = "";
+        this.comment = '';
         this.getCommentList();
       } catch (e) {
-        console.log("err:", e);
-        showModal("添加评论失败！", "err");
+        console.log('err:', e);
+        showModal('添加评论失败！', 'err');
       }
     }
   }

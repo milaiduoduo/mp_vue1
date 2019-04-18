@@ -9,6 +9,7 @@ module.exports = async (ctx) => {
   } = ctx.request.query
 
   const addInfo = await mysql('books').where('id', id).increment('count', 1);
+  console.log("-----------------获取图书明细接口,prams id,增加浏览量结果：", id, addInfo);
   if (addInfo <= 0) {
     throw '浏览量计数不成功';
   }

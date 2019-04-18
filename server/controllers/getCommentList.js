@@ -11,8 +11,9 @@ module.exports = async (ctx) => {
   //   console.log('-----------------------', ctx.request.query);
   //   console.log('-----------------------bookId,openid:', bookId, openid);
   const sqlStr = mysql('comments')
-    .select('comments.*', 'csessioninfo.user_info')
+    .select('comments.*', 'csessioninfo.user_info', 'books.title')
     .join('csessioninfo', 'comments.openid', 'csessioninfo.open_id')
+    .join('books', 'comments.bookid', 'books.id');
 
   let commentList = [];
   if (bookId) {

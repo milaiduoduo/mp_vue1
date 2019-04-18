@@ -11,6 +11,9 @@
                     <img :src="comment.user_info.image" class="m_avatar" :alt="comment.user_info.title">
                     {{comment.user_info.title}}
             </div>
+            <div class="section">
+              评论《{{comment.title || '未知图书'}}》
+            </div>
             <div class="section location">
                 来至：{{comment.location || '未知地点'}}  
             </div>
@@ -24,10 +27,16 @@
 </template>
 
 <script type="text/ecmascript-6">
+import config from "@/config.js";
 export default {
   props: ["commentsList", "titleName"],
   methods: {
-    handleClick(comment) {}
+    handleClick(comment) {
+      let urlStr = config.pageUrl.bookDetail + "?id=" + comment.bookid;
+      wx.navigateTo({
+        url: urlStr
+      });
+    }
   },
   mounted() {
     // console.log("子组件props commentsList：", this.commentsList);
@@ -43,8 +52,12 @@ export default {
     border-bottom: 1px solid $background-main;
     .location,
     .phone {
+      margin-bottom: 3px;
       padding-left: 5px;
       font-size: $font-size-small;
+    }
+    .location {
+      margin-top: 3px;
     }
   }
   .content {
